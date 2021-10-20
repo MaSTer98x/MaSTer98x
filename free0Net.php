@@ -1,13 +1,7 @@
+<?php
 
-<?php 
-
-ob_start();
-$API_KEY =
- 1177378670:AAHEatrfANVoiu6Aq6Dd1aqxWnpceHJuPyk: ; //add your bot token
-$sudo = 204535577; // add your id
-$bot_id = 1177378670; 
-$e = "@Net_7_BOT";
-define( API_KEY ,$API_KEY);
+$API_KEY = '1177378670:AAHEatrfANVoiu6Aq6Dd1aqxWnpceHJuPyk';  
+define('API_KEY',$API_KEY);
 function bot($method,$datas=[]){
     $url = "https://api.telegram.org/bot".API_KEY."/".$method;
     $ch = curl_init();
@@ -23,985 +17,1602 @@ function bot($method,$datas=[]){
 }
 
 
-$update = json_decode(file_get_contents( php://input ));
-var_dump($update);
-$message    = $update->message;
-$from_id    = $message->from->id;
-$text       = $message->text;
-$chat_id    = $message->chat->id;
-$new        = $message->new_chat_member;
-$left       = $update->message->left_chat_member;
-$contact    = $update->message->contact;
-$audio      = $update->message->audio;
-$location   = $update->message->location;
-$memb       = $update->message->message_id;
-$game       = $update->message->game; 
-$name       = $update->message->from->first_name;
-$gp_name    = $update->message->chat->title;
-$user       = $update->message->from->username;
-$for        = $update->message->from->id;
-$sticker    = $update->message->sticker;
-$video      = $update->message->video;
-$photo      = $update->message->photo;
-$voice      = $update->message->voice;
-$doc        = $update->message->document;
-$fwd        = $update->message->forward_from;
-$re         = $update->message->reply_to_message;
-$re_id      = $update->message->reply_to_message->from->id;
-$re_user    = $update->message->reply_to_message->from->username;
-$re_msgid   = $update->message->reply_to_message->message_id;
-$type       = $update->message->chat->type;
-$mid        = $message->message_id;
+$update = json_decode(file_get_contents('php://input'));
+$message = $update->message;
+$text = $message->text;
+$chat_id = $message->chat->id;
+$mid = $message->message_id;
+$id = $message->from->id;
+$username = $message->from->username;
+$first_name = $message->from->first_name;
+$last_name = $message->from->last_name;
+$type = $message->chat->type;
+$group_name = $message->chat->title;
+$chat_id2 = $update->callback_query->message->chat->id;
+$msg_id = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
+$get_ids = file_get_contents('ids.txt');
+$ids = explode("\n", $get_ids);
+$get_groups = file_get_contents("Groups.txt");
+$groups = explode("\n", $get_groups);
+$you = bot('getChatMember',['chat_id'=>$chat_id,'user_id'=>$id])->result->status;
+$join = bot('getChatMember',['chat_id'=>"@M_Ld1",'user_id'=>$id])->result->status;
+$sudo = 204535577; // ايدي المطور 
 
-$number     = str_word_count($text);
-$numper     = strlen($text);
-$set        = file_get_contents("data/$chat_id.txt");
-$ex         = explode("\n", $set);
-$photo1     = $ex[0];
-$sticker1   = $ex[1];
-$contact1   = $ex[2];
-$doc1       = $ex[3];
-$fwd1       = $ex[4];
-$voice1     = $ex[5];
-$link1      = $ex[6];
-$audio1     = $ex[7];
-$video1     = $ex[8];
-$tag1       = $ex[9];
-$mark1      = $ex[10];
-$bots1      = $ex[11];
-$commands = array( /add , /lock photo , /lock voice , /lock audio , /lock video , /lock link , /lock user , /lock sticker , /lock contact , /lock doc , /promote , /ban , /kick , /pin , /setname ,"قفل الصور","قفل البصمات","قفل الصوت","قفل الفيديو","قفل الروابط","قفل الجهات","قفل الملفات","حظر","طرد","رفع ادمن","ضع اسم","تثبيت","/link","الرابط");
-$s = file_get_contents("https://api.telegram.org/bot$API_KEY/getChatMember?chat_id=$chat_id&user_id=".$bot_id);
-$ss = json_decode($s, true);
-$bot = $ss[ result ][ status ];
-if(in_array($text, $commands) and $bot != "administrator"){
-  bot( sendMessage ,[
-       chat_id =>$chat_id,
-       text =>"• Sorry Bot has not been promoted in the group ☄️🔥",
-   reply_to_message_id =>$mid
-    ]);
-}
-$get = file_get_contents("https://api.telegram.org/bot$API_KEY/getChatMember?chat_id=$chat_id&user_id=".$from_id);
-$info = json_decode($get, true);
-$you = $info[ result ][ status ];
-$gp_get = file_get_contents("data/groups.txt");
-$groups = explode("\n", $gp_get);
- if($text=="/start" and $type == "private"){
-bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"اهلا بك في بوت الحمايه 🗜
-الاقوى بلتلكرام ☣
-
-البوت يعمل بلغه العربية 🇸🇾⁩
-En / ar 📌
-
-قم ب اضافه البوت الى مجموعتك ورفعه ادمن 📍 واسل امر /add 
-او تفعيل 🛡
-
-#مطور البوت 🥀 @M_Ld1
- 
-
-تابع جديدنا ♥
- @free_syria_max",
-     reply_markup =>json_encode([
-       inline_keyboard =>[
-        [[ text =>"Add me to Your GP 🔥", url =>"telegram.me/Net_7_BOT?startgroup=new"]],
-        [[ text =>"اضفني الى مجموعتك 🔥", url =>"telegram.me/Net_7_BOT?startgroup=new"]],
-        [[ text =>"تابع 🌿",  url =>"telegram.me/M_YT_98"]]
-    ]
-
-  ])
-  ]);
-}
-if ($new and $new->id == $bot_id) {
-  bot( sendMessage ,[
-       chat_id =>$chat_id,
-       text =>"قم برفعي ادمن اولا 📍
-      \n• وارسل كلمه تفعيل او :- /add ☄️",
-    ]);
+$count1 = count($ids);
+$count2 = count($groups);
+if($text == "/panel" and $type == "private" and $id == $sudo){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"Bot Users : " . $count1 . "\n" . "Bot Groups : " . $count2,
+]);
 }
 
-if ($type == "supergroup" and in_array($chat_id, $groups)){
-  
-  if($you != "creator" && $you != "administrator" && $from_id != $sudo){
-    if($photo && $photo1 == "l"){
-        bot( deleteMessage ,[
-             chat_id =>$chat_id,
-             message_id =>$message->message_id
-        ]);
-    }
-
-    if($voice and $voice1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    } 
-    if($audio && $audio1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($video && $video1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($link1 == "l" and preg_match( /^(.*)([Hh]ttp|[Hh]ttps|t.me)(.*)|([Hh]ttp|[Hh]ttps|t.me)(.*)|(.*)([Hh]ttp|[Hh]ttps|t.me)|(.*)[Tt]elegram.me(.*)|[Tt]elegram.me(.*)|(.*)[Tt]elegram.me|(.*)[Tt].me(.*)|[Tt].me(.*)|(.*)[Tt].me/ ,$text) ){
-       bot( deleteMessage ,[
-          chat_id =>$chat_id,
-          message_id =>$message->message_id
-      ]);
-    } 
-    if($tag1 == "l" and  preg_match( /^(.*)@|@(.*)|(.*)@(.*)|(.*)#(.*)|#(.*)|(.*)#/ ,$text)){
-       bot( deleteMessage ,[
-         chat_id =>$chat_id,
-         message_id =>$message->message_id
-       ]);
-    }
-    if($doc and $doc1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($sticker and $sticker1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($update->message->forward_from && $fwd1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($message->entities and $mark1 == "l"){
-      bot( deleteMessage ,[
-           chat_id =>$chat_id,
-           message_id =>$message->message_id
-      ]);
-    }
-    if($new and $bots1 == "l"){
-      $new_user = $new->username;
-      if (preg_match( /^(.*)([Bb][Oo][Tt]/ , $new_user)) {
-        bot( kickChatMember ,[
-           chat_id =>$chat_id,
-           user_id =>$new->id
-          ]);
-      }
-    }
-  }
-
-if($bot == "administrator"){
-if($you == "creator" or $you == "administrator") {
-$re_user    = $update->message->reply_to_message->from->username;
-  if($re  &&  $text == "/del"){
-    bot( deleteMessage ,[
-         chat_id =>$chat_id,
-         message_id =>$re_msgid
-    ]);
-  }
-  if($re and $re_id != $bot and $re_id != $sudo and $text=="/ban" or $text == "حظر" or $text == "/kick" or $text=="طرد"){
-    bot( sendMessage ,[
-       chat_id =>$chat_id,
-       text =>"• User 🔥 : - @$re_user
-• Has been Banned from group ☄️💫 !",
-   reply_to_message_id =>$mid
-      ]);
-    bot( kickChatMember ,[
-         chat_id =>$chat_id,
-         user_id =>$re_id
-      ]);
-  }
-  if($re and $re_id != $bot and $re_id != $sudo and $text=="/unban" or $text == "الغاء حظر"){
-    bot( sendMessage ,[
-       chat_id =>$chat_id,
-       text =>"• User 🔥 : - @@$re_user 
-• Has been unBanned from group ☄️💫 !",
-   reply_to_message_id =>$mid
-      ]);
-    bot( unbanChatMember ,[
-         chat_id =>$chat_id,
-         user_id =>$re_id
-      ]);
-    }
-  if($text == "/promote" or $text == "رفع ادمن"){
-      bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• User 🔥 : - @$re_user
-• Was promoted in the group ☄️💫 !
-
-للتواصل مع الأدمن العام ⚠☠@M_Ld1",
-   reply_to_message_id =>$mid
-      ]);
-      bot( promoteChatMember ,[
-           chat_id =>$chat_id,
-           user_id =>$re_id
-        ]);
-  }
-  $ename = str_replace("/setname ", "$ename", $text);
-  $aname = str_replace("ضع اسم ", "$aname", $text);
-  if($text == "/setname $ename"){
-    bot( setChatTitle ,[
-       chat_id =>$chat_id,
-       title =>$ename 
-      ]);
-  }
-   if($text == "ضع اسم $aname"){
-     bot( setChatTitle ,[
-       chat_id =>$chat_id,
-       title =>$aname 
-      ]);
-   }
-   if($re and $text == "/pin" or $text == "تثبيت"){
-    bot( pinChatMessage ,[
-         chat_id =>$chat_id,
-         message_id =>$re_msgid
-      ]);
-   }
-   if($text == "/lock photo" or $text == "قفل الصور"){
-    file_put_contents("data/$chat_id.txt", "l\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-     bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Photos* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل الصور  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
- 
-   if($text == "/open photo" or $text == "فتح الصور"){
-    file_put_contents("data/$chat_id.txt", "o\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Photos* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الصور  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
- 
-    if($text == "/lock sticker" or $text == "قفل الملصقات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\nl\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Stickers* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل الملصقات  ☑️",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-       if($text == "/open sticker" or $text == "فتح الملصقات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\no\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Stickers* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الملصقات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-       if($text == "/lock contact" or $text == "قفل الجهات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\nl\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *contacts* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل الجهات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
- if($text == "/open contact" or $text == "فتح الجهات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\no\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *contacts* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الجهات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/lock doc" or $text == "قفل الملفات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\nl\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *documents* 🔥 
-•  *Has Been Locked in Group* ☠,
-
-•  تم قفل الملفات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-  if($text == "/open doc" or $text == "فتح الملفات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\no\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *documents* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الملفات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-if($text == "/lock fwd" or $text == "قفل التوجيه"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\nl\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Forward* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل التوجيه  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open fwd" or $text == "فتح التوجيه"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\no\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Forward* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح التوجيه  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/lock voice" or $text == "قفل البصمات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\nl\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *voice* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل البصمات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-     if($text == "/open voice" or $text == "فتح البصمات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\no\n$link1\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *voice* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم فتح البصمات  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-     if($text == "/lock link" or $text == "قفل الروابط"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\nl\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Links* 🔥 
-•  *Has Been Locked in Group* ☠
-
-• تم قفل الروابط  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open link" or $text == "فتح الروابط"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\no\n$audio1\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *Links* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الروابط  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/lock audio" or $text == "قفل الصوت"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\nl\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *audios* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل الصوت  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open audio" or $text == "فتح الصوت"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\no\n$video1\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"•  *audios* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح الصوت  ☑️
-
-[تابع جديدنا ☹](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/lock video" or $text == "قفل الفيديو"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\nl\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Videos* 🔥 
-•  *Has Been Locked in Group* 📡
-
-•  تم قفل الفيديو  ☑️
-
-[تابع جديدنا ☺](@free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open video" or $text == "فتح الفيديو"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\no\n$tag1\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Videos* 🔥 
-•  *Has Been Opened in Group* 📡
-
-•  تم فتح الصور  ☑️
-
-[تابع جديدنا ☺](https://t.me/free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/lock user" or $text == "قفل المعرف"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\nl\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Users* 🔥 
-•  *Has Been Locked in Group* 📡
-
-•  تم قفل المعرف ☑️
-
-[تابع جديدنا ☺](https://t.me/free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open user" or $text == "فتح المعرف"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\no\n$mark1\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Users* 🔥 
-•  *Has Been Opened in Group* ☠
-
-•  تم فتح المعرف  ☑️
-
-[تابع جديدنا ☺](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-    if($text == "/lock mark" or $text == "قفل الماركدون"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\nl\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Markdown* 🔥 
-•  *Has Been Locked in Group* 📡
-
-•  تم قفل الماركداون  ☑️
-
-[تابع جديدنا ☺](M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open mark" or $text == "فتح الماركدون"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\no\n$bots1");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *Markdown* 🔥 
-•  *Has Been Opened in Group* 📡
-
-•  تم فتح الماركداون  ☑️
-
-[تابع جديدنا ☺](@M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-  if($text == "/lock bots" or $text == "قفل البوتات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\nl");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *bots* 🔥 
-•  *Has Been Locked in Group* ☠
-
-•  تم قفل البوتات  ☑️
-
-[تابع جديدنا ☺](@free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text == "/open bots" or $text == "فتح البوتات"){
-    file_put_contents("data/$chat_id.txt", "$photo1\n$sticker1\n$contact1\n$doc1\n$fwd1\n$voice1\n$link1\n$audio1\n$video1\n$tag1\n$mark1\no");
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"• *bots* 🔥 
-•  *Has Been Opened in Group* 📡
-
-•  تم فتح البوتات  ☑️
-
-[تابع جديدنا ☺](@free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-      ]);
-   }
-   if($text=="/help" or $text=="/help@Net_7_BOT
-" or $text=="الاوامر"){
-    bot( sendMessage ,[
-         chat_id =>$chat_id,
-         text =>"اهلا بك عزيزي ☑️ في قائمة الاوامر 🔗
-        
-        جديدنا للبوتات ☢
-  مطور البوت 🥀 @M_Ld1
-
-• باللغة العربية 🇸🇾⁩
-
-قفل || للقفل ♦️
-فتح || للفتح 🌟
-
-• باللغة الانكليزية 🗒
-
-/lock || للقفل 🌪
-/open || للفتح ⏱
-
-ֆ • • • • • • • • • • • • • ֆ
-
-link || الروابط 📡
-user || المعرف 🔱
-mark || الماركداون 📚
-bots  || البوتات 🕹
-
-ֆ • • • • • • • • • • • • • ֆ
-
-photo || الصور 🌿
-sticker || الملصقات ⏱
-video || الفيديو 📒
-bsma || البصمات 🎙
-
-ֆ • • • • • • • • • • • • • ֆ
-
-fwd || التوجيه 💎
-audio || الصوت ♦️
-contact || الجهات 🏷
-doc || الملفات ⚡️
-
-ֆ • • • • • • • • • • • • • ֆ
-
-• /del || امسح ( بالرد ) لحذف رسالة 🌀
-
-• /promote || رفع ادمن 🔗
-بالرد لرفع ادمن في المجموعه 🔻
-
-• /setname || ضع اسم 🌿
-لوضع اسم للمجموعه 📌
-
-• /pin || تثبيت ✔️
-بالرد لتثبيت رسالة 🔑
-
-• /ban || حظر 💎
-بالرد لحظر العضو 📚
-
-• /kick || طرد 🔥
-بالرد لطرد العضو 🎵
-
-• /unban || الغاء الحظر 🐾
-بالرد لالغاء حظر العضو 📊
-
-تابع 🔥 @M_Ld1",
-      ]);
-   }
-   if($text=="اوامر" or $text=="مساعدة" or $text=="مساعده"){
-    bot( sendMessage ,[
-       chat_id =>$chat_id,
-       text =>"اهلا بك عزيزي ☑️ في قائمة الاوامر 🔗
-      
-جديدنا للبوتات ☢
-  مطور البوت 🥀 @M_Ld1
-  
-• باللغة العربية 🇸🇾⁩
-
-قفل || للقفل ♦️
-فتح || للفتح 🌟
-
-• باللغة الانكليزية ⚠
-
-/lock || للقفل 🌪
-/open || للفتح ⏱
-
-ֆ • • • • • • • • • • • • • ֆ
-
-link || الروابط 📡
-user || المعرف 🔱
-mark || الماركداون 📚
-bots  || البوتات 🕹
-
-ֆ • • • • • • • • • • • • • ֆ
-
-photo || الصور 🌿
-sticker || الملصقات ⏱
-video || الفيديو 📒
-bsma || البصمات 🎙
-
-ֆ • • • • • • • • • • • • • ֆ
-
-fwd || التوجيه 💎
-audio || الصوت ♦️
-contact || الجهات 🏷
-doc || الملفات ⚡️
-
-ֆ • • • • • • • • • • • • • ֆ
-
-• /del || امسح ( بالرد ) لحذف رسالة 🌀
-
-• /promote || رفع ادمن 🔗
-بالرد لرفع ادمن في المجموعه 🔻
-
-• /setname || ضع اسم 🌿
-لوضع اسم للمجموعه 📌
-
-• /pin || تثبيت ✔️
-بالرد لتثبيت رسالة 🔑
-
-• /ban || حظر 💎
-بالرد لحظر العضو 📚
-
-• /kick || طرد 🔥
-بالرد لطرد العضو 🎵
-
-• /unban || الغاء الحظر 🐾
-بالرد لالغاء حظر العضو 📊
-
-تابع 🔥 @M_YT_98",
-      ]);
-  }
- }
-}
-if($text=="/setting" or $text=="/setting$e" or $text=="الاعدادات"){
-
-  bot( sendMessage ,[ chat_id =>$chat_id,  text =>"اهلا بك 🌿 عزيزي في قائمة الاعدادات ⚠️
-  
-جديدنا للبوتات ☢
-  @M_Ld1
-( l = مقفول ) 🔗
-( o = مفتوح ) ♦️
-
-ֆ • • • • • • • • • • • • • ֆ
-• الصور  ⚠️ - $photo1
-• الملصقات 🔱 - $sticker1
-
-• الفيديو 🌟 - $video1
-• الروابط 📊 -  $link1
-
-• الجهات 🔥 - $contact1
-• الملفات 📒 - $doc1
-
-• التوجيه ♦️ - $fwd1
-• البصمات 🔊 - $bsma1
-
-• الصوت 📢 - $audio1
-• المعرف ⏱ - $tag1
-
-• الماركداون ⚡️ - $mark1
-• البوتات 🕹    - $bots1
-
-تابع 🔥 @M_YT_98",
+$bc = explode("/bcu", $text);
+
+if($bc and $id == $sudo){
+for($y=0;$y<count($ids); $y++){
+bebo('sendMessage', [
+'chat_id'=>$ids[$y],
+'text'=>"$bc[1]",
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
 ]);
 }
 }
-if($bot == "administrator"){
- if ($you == "administrator" or $you == "creator") {
-if($text == "/add" or $text == "/add$e" or $text=="تفعيل"){
-if(!in_array($chat_id, $groups)){
-  file_put_contents("data/$chat_id.txt", "o\no\no\no\nl\no\nl\no\no\nl\no");
-  file_put_contents("data/groups.txt", "$chat_id\n",FILE_APPEND);
-$t =  $message->chat->title;
-  bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"•  Group 🔥 :- $t
-    
-     تم تفعيل المجموعه  ☑️
-    
-• has been successfully added to the bot ☑️
-  لعرض الاوامر:- /help
-  
-  [تابع جديدنا ☺](https://t.me/free_syria_max)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-    ]);
- }
-if (in_array($chat_id, $groups)) {
-$t =  $message->chat->title;
-  bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"•  Group 🔥 :- $t
-    
-      تم تفعيل المجموعه  ☑️
-      
-• is aleardy added to the bot ☑️
-   لعرض الاوامر :- /help
-  
-  [تابع جديدنا ☺](https://t.me/M_YT_98)",
-   reply_to_message_id =>$mid,
-   parse_mode => MARKDOWN ,
- disable_web_page_preview =>true,
-    ]);
- }
-}
-}
-}
- if($text == "المجموعات"){
-  $c = count($groups);
-  bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"$c"
-    ]);
- }
-if($text == "اذاعة" and $for == $sudo){
-  file_put_contents("mode.txt", "bc");
-  bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"رسالة ك"
-    ]);
-}
-$mode = file_get_contents("mode.txt");
-if($text != "اذاعة" and $mode=="bc" and $for == $sudo){
-  for ($i=0; $i < count($groups); $i++) { 
-    bot( sendMessage ,[
-       chat_id =>$groups[$i],
-       text =>" $text"
-    ]);
-  }
-  unlink("mode.txt");
-}
-$id   = $message->from->id; 
-$user = $message->from->username; 
-$name = $message->from->first_name; 
-if($text=="موقعي" and $you == "creator"){
-bot( sendmessage ,[
- chat_id =>$chat_id, 
- text =>"انت منشئ 🔗 في المجموعه ☑️ 
-😍 معرفك :- @$user
-😉 ايديك :- $id
-😒 اسمك :- $name
-"
-]);
-}
-if($text=="موقعي" and  $you == "administrator"){
-bot( sendmessage ,[
- chat_id =>$chat_id, 
- text =>"انت ادمن 🔗 في المجموعه ☑️ 
-😍 معرفك :- @$user
-😉 ايديك :- $id
-😒 اسمك :- $name"
-]);
-}
-if($text=="موقعي" and  $you == "member"){
-bot( sendmessage ,[
- chat_id =>$chat_id, 
- text =>"انت عضو 🔗 في المجموعةه ☑️ 
-😍 معرفك :- @$user
-😉 ايديك :- $id
-😒 اسمك :- $name"
-]);
-}
- 
-$rnd = rand(1,999999999999999999);
-if($text=="معلوماتي" or $text == "ايدي" or $text == "/id" or $text == "id"){
-$re = bot("getUserProfilePhotos",["user_id"=>$id,"limit"=>1,"offset"=>0]);
-$res = $re->result->photos[0][2]->file_id;
-$pa = bot("getFile",["file_id"=>$res]);
-$path = $pa->result->file_path;
-file_put_contents("$rnd.jpg",file_get_contents("https://api.telegram.org/file/bot".$API_KEY."/".$path));
-$uphoto = "http://alsaednnn.000webhostapp.com/$rnd.jpg"; // يوزر استضافتك
-bot("sendPhoto",[
- chat_id =>$chat_id,
-"photo"=>$uphoto,
- caption =>"
-😃 ايدي المجموعةه :- $chat_id
-😍 معرفك :- @$user
-😉 ايديك :- $id
-😒 اسمك :- $name "
-]);
-unlink("$rnd.jpg");
-}
-if($re and $text == "جلب صورته"){
-  $g = bot("getUserProfilePhotos",["user_id"=>$re_id,"limit"=>1,"offset"=>0]);
-$r = $g->result->photos[0][2]->file_id;
-$pa = bot("getFile",["file_id"=>$r]);
-$path = $pa->result->file_path;
-file_put_contents("$rnd.jpg",file_get_contents("https://api.telegram.org/file/bot".$API_KEY."/".$path));
-$uphoto = "http://alsaednnn.000webhostapp.com/$rnd.jpg"; // بوزر استضافتك
-bot("sendPhoto",[
- chat_id =>$chat_id,
-"photo"=>$uphoto,
-]);
-unlink("$rnd.jpg");
-}
-if($text == "/link" or $text == "الرابط"){
-  $export = json_decode(file_get_contents("api.telegram.org/bot".$API_KEY."/exportChatInviteLink?chat_id=$chat_id"));
-  $l = $export->result;
-  bot( sendMessage ,[
-     chat_id =>$chat_id,
-     text =>"~> $l"
-    ]);
-}
-if($text == "مطور"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"مطور البوت 🥀
- @M_Ld1
 
-تواصل محضورين 🍂📮
-@Net_7_BOT",
- reply_to_message_id =>$message->message_id, 
-]);
-}
- if($text == "المطور"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"مطور البوت 🥀
-@M_Ld1
+$bc = explode("/bcu", $text);
 
-تواصل محضورين 🍂📮
-مطور البوت 🥀 @M_Ld1",
- reply_to_message_id =>$message->message_id, 
+if($bc and $id == $sudo){
+for($y=0;$y<count($groups); $y++){
+bebo('sendMessage', [
+'chat_id'=>$groups[$y],
+'text'=>"$bc[1]",
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
 ]);
 }
-if($text == "هدوء"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"فديت ربه هذا صنعني 😻🌸
-@M_Ld1",
- reply_to_message_id =>$message->message_id, 
-]);
 }
-if($text == "بوت"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"شو بدك مني ☹️💔
-كول حمبي 😻🌸",
- reply_to_message_id =>$message->message_id, 
-]);
-}
-if($text == "بوت حماية" or $text == "بوت"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"انا بوت اسمي : اﻷڙ؏ــڔ اڷــڛــۄڔې
-ضيفني بكروبك ورفعني ادمن و
-معرفي @Net_7_BOT
-",
 
- reply_to_message_id =>$message->message_id, 
-]);
-}
-if($text == "/start"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"لا تجلطني 😐💔
 
-شترك هنا 😻🌸 @M_YT_98",
- reply_to_message_id =>$message->message_id, 
+if($text == "/start" and $join == 'left' and $type == "private"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'text'=>"📛 ¦ عذرا عزيزي $n1
+⚠️ ¦ يجب ان تشترك في قناة البوت اولا 
+‼️¦ البوت لن يستجيب للاوامر بدون اشتراك المشرفين في المجموعة 
+〰〰〰〰
+📛 ¦ *Sorry Dear*
+⚠️ ¦ *You Must Subscribe To The Channel First*
+‼️ ¦ *Bot will not respond to orders without the subscription of the group administrators*",
+'reply_to_message_id'=>$mid,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+    [['text'=>"اضغط هنا للأشتراك ☄️💥", 'url'=>"https://t.me/free_syria_max"]],
+]
+])
 ]);
 }
-if($text == "شلونكم" or $text == "شلونك" or $text == "كيفك"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"تمام ونته/ي 😻🌸",
- reply_to_message_id =>$message->message_id, 
-]);
-}
-if($text == "هلا" or $text == "هاي" or $text == "هلو"){
-bot( sendMessage ,[
- chat_id =>$chat_id, 
- text =>"هلاوات نورت/ي 😻🌸",
- reply_to_message_id =>$message->message_id, 
-]);
-}
-$new_user = $new->username;
-      if ($new) {
-        bot( sendMessage ,[
-           chat_id =>$chat_id,
-           text =>"اجه القمر 😻🍂
 
-تعال تعال 😻🌸
-شترك هنا 📮 @M_YT_98"
-          ]);
-      }
+if($text == '/start' and !in_array($id,$ids) and $type == 'private' and $join != 'left'){
+file_put_contents("ids.txt", $id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"👾¦ اهلا وسهلا بك عزيزي في بوت حماية المجموعات ( *100k* )" . "\n" . "☄️¦ البوت يقوم بحماية مجموعتك بطريقتين ( * التقييد + الحذف * )" . "\n" . "➕¦ فقط اضف البوت لمجموعتك وارسل ( * تفعيل * ) " . "\n" . "📬¦ تمت الكتابة بيد ( *@M_Ld1* )",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"معلوماتك 🔰",'callback_data'=>'information']],
+[['text'=>"UserName :  " . $username,'callback_data'=>'username']],
+[['text'=>"UserID : " . $id,'callback_data'=>'Id']],
+[['text'=>"UserFUllName :  " . $first_name . " " . $last_name,'callback_data'=>'Name']],
+[['text'=>"أضف البوت لمجموعتك ➕",'url'=>'https://t.me/botusername?startgroup=new']] // خلي معرف بوتك بمكان ( Net_7_BOT )
+]
+])
+]);}
+if($text == '/start' and in_array($id,$ids) and $type == 'private' and $join != 'left'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"👾¦ اهلا وسهلا بك عزيزي في بوت حماية المجموعات ( *100k* )" . "\n" . "☄️¦ البوت يقوم بحماية مجموعتك بطريقتين ( * التقييد + الحذف * )" . "\n" . "➕¦ فقط اضف البوت لمجموعتك وارسل ( * تفعيل * ) " . "\n" ."📬¦ تمت الكتابة بيد ( *@M_Ld1* )",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"معلوماتك 🔰",'callback_data'=>'information']],
+[['text'=>"UserName :  " . $username,'callback_data'=>'username']],
+[['text'=>"UserID : " . $id,'callback_data'=>'Id']],
+[['text'=>"UserFUllName :  " . $first_name . " " . $last_name,'callback_data'=>'Name']],
+[['text'=>"أضف البوت لمجموعتك ➕",'url'=>'https://t.me/Net_7_BOT?startgroup=new']]             (botusername )
+
+]
+])
+]);
+}
+
+if($text == "تفعيل" and !in_array($chat_id,$groups) and $join != 'left' and $you == "creator" and $type == 'supergroup'){
+file_put_contents("Groups.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🆔¦ ايديك : " . "*" . $id . "*" . "\n" . "🛑¦ايدي المجموعة  : " . "*" . $chat_id. "*" . "\n" . "⚠️¦ تم تفعيل البوت في المجموعة بنجاح",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "تفعيل" and in_array($chat_id,$groups) and $join != 'left' and $you == "creator" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"⚠️¦ البوت بالفعل تم تفعيله في المجموعة",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "تعطيل" and in_array($chat_id,$groups) and $join != 'left' and $you == "creator" and $type == 'supergroup'){
+$open = file_get_contents("Groups.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("Groups.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🆔¦ ايديك : " . "*" . $id . "*" . "\n" . "🛑¦ايدي المجموعة  : " . "*" . $chat_id. "*" . "\n" . "⚠️¦ تم تعطيل البوت في المجموعة بنجاح",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "تعطيل" and !in_array($chat_id,$groups) and $join != 'left' and $you == "creator" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"⚠️¦ البوت بالفعل تم تعطيله في المجموعة",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+$get_tqeed = file_get_contents("tqeed/fwd.txt");
+$tq_fwd = explode("\n", $get_tqeed);
+mkdir("tqeed");
+
+if($text == "قفل التوجيه بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_fwd) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/fwd.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل التوجيه بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل التوجيه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_fwd) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التوجيه بالتقييد بالفعل تم قفلة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_fwd) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/fwd.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/fwd.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح التوجيه بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_fwd) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التوجيه بالتقييد بالفعل تم فتحة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->forward_from_chat and in_array($chat_id, $groups) and in_array($chat_id,$tq_fwd) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_links = file_get_contents("tqeed/links.txt");
+$tq_links = explode("\n", $tqeed_links);
+
+if($text == "قفل الروابط بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_links) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/links.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الروابط بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الروابط بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_links) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الروابط بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الروابط بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_links) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/links.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/links.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الروابط بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الروابط بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_links) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الروابط بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if(preg_match('/^([Hh]ttp|[Hh]ttps|[Tt].[Mm][Ee]|[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]|[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]|[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee])(.*)/',$text) and in_array($chat_id, $groups) and in_array($chat_id,$tq_links) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_photo = file_get_contents("tqeed/photo.txt");
+$tq_photo = explode("\n", $tqeed_photo);
+
+if($text == "قفل الصور بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_photo) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/photo.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصور بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الصور بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_photo) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصور بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_photo) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/photo.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/photo.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصور بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_photo) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->photo and in_array($chat_id, $groups) and in_array($chat_id,$tq_photo) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_voice = file_get_contents("tqeed/voice.txt");
+$tq_voice = explode("\n", $tqeed_voice);
+
+if($text == "قفل البصمه بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_voice) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/voice.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل البصمة بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل البصمه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_voice) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ البصمه بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح البصمه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_voice) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/voice.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/voice.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح البصمه بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح البصمه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_voice) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ البصمه بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->voice and in_array($chat_id, $groups) and in_array($chat_id,$tq_voice) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_audio = file_get_contents("tqeed/audio.txt");
+$tq_audio = explode("\n", $tqeed_audio);
+
+if($text == "قفل الصوت بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_audio) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/audio.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصوت بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الصوت بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_audio) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصوت بالتقييد بالفعل تم قفله 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصوت بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_audio) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/audio.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/audio.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصوت بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصوت بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_audio) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ البصمه بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->audio and in_array($chat_id, $groups) and in_array($chat_id,$tq_audio) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_doc = file_get_contents("tqeed/doc.txt");
+$tq_doc = explode("\n", $tqeed_doc);
+
+if($text == "قفل المتحركه بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_doc) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/doc.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصور المتحركة والملفات بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل المتحركه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_doc) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور المتحركه والملفات بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح المتحركه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_doc) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/doc.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/doc.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصور المتحركة والملفات بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح المتحركه بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_doc) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور المتحركة والملفات بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->document and in_array($chat_id, $groups) and in_array($chat_id,$tq_doc) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_game = file_get_contents("tqeed/game.txt");
+$tq_game = explode("\n", $tqeed_game);
+
+if($text == "قفل الالعاب بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_game) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/game.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الالعاب بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الالعاب بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_game) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦الالعاب بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الالعاب بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_game) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/game.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/game.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الالعاب بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الالعاب بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_game) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الالعاب بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->game and in_array($chat_id, $groups) and in_array($chat_id,$tq_game) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_sticker = file_get_contents("tqeed/sticker.txt");
+$tq_sticker = explode("\n", $tqeed_sticker);
+
+if($text == "قفل الملصقات بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_sticker) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/sticker.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الملصقات بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الملصقات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_sticker) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"الملصقات بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الملصقات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_sticker) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/sticker.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/sticker.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الملصقات بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الملصقات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_sticker) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الملصقات بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->sticker and in_array($chat_id, $groups) and in_array($chat_id,$tq_game) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_video = file_get_contents("tqeed/video.txt");
+$tq_video = explode("\n", $tqeed_video);
+
+if($text == "قفل الفيديو بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_video) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/video.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الفيديو بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الفيديو بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_video) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"الفيديو بالتقييد بالفعل تم قفله 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الفيديو بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_video) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/video.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/video.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الفيديو بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الفيديو بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_video) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الفيديو بالتقييد بالفعل تم فتحه 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->video and in_array($chat_id, $groups) and in_array($chat_id,$tq_video) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_contact = file_get_contents("tqeed/contact.txt");
+$tq_contact = explode("\n", $tqeed_contact);
+
+if($text == "قفل الجهات بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_contact) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/contact.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل جهات الاتصال بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الجهات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_contact) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"جهات الاتصال بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الجهات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_contact) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/contact.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/contact.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح جهات الاتصال بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الجهات بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_contact) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ جهات الاتصال بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->contact and in_array($chat_id, $groups) and in_array($chat_id,$tq_video) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+$tqeed_edit = file_get_contents("tqeed/edit.txt");
+$tq_edit = explode("\n", $tqeed_edit);
+
+if($text == "قفل التعديل بالتقييد" and in_array($chat_id,$groups) and !in_array($chat_id,$tq_edit) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("tqeed/edit.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل التعديل بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل التعديل بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_edit) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التعديل بالتقييد بالفعل تم قفلة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التعديل بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_edit) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("tqeed/edit.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("tqeed/edit.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح التعديل بالتقييد بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التعديل بالتقييد" and in_array($chat_id,$groups) and in_array($chat_id,$tq_edit) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التعديل بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($update->edited_message and in_array($chat_id,$groups) and in_array($chat_id,$tq_edit) and $you == "member" and $type == "supergroup"){
+bot('deletemessage',[
+'chat_id'=>$update->edited_message->chat->id,
+'message_id'=>$update->edited_message->message_id,
+]);
+bot('restrictChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$id,
+'can_send_messages'=>FALSE,
+'can_send_media_messages'=>FALSE,
+'can_send_other_messages'=>FALSE,
+'can_add_web_page_previews'=>FALSE,
+]);
+}
+
+/* Start With Delete Msg */
+
+$del_fwd = file_get_contents("delete/fwd.txt");
+$dl_fwd = explode("\n", $del_fwd);
+mkdir("delete");
+
+if($text == "قفل التوجيه بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_fwd) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/fwd.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل التوجيه بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل التوجيه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_fwd) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التوجيه بالحذف بالفعل تم قفلة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_fwd) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/fwd.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/fwd.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح التوجيه بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_fwd) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التوجيه بالحذف بالفعل تم فتحة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->forward_from_chat and in_array($chat_id, $groups) and in_array($chat_id,$dl_fwd) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_links = file_get_contents("delete/links.txt");
+$dl_links = explode("\n", $del_links);
+
+if($text == "قفل الروابط بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_links) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/links.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الروابط بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الروابط بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_links) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الروابط بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الروابط بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_links) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/links.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/links.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الروابط بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الروابط بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_links) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الروابط بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if(preg_match('/^([Hh]ttp|[Hh]ttps|[Tt].[Mm][Ee]|[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]|[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]|[Tt][Ee][Ll][Ee][Ss][Cc][Oo].[Pp][Ee])(.*)/',$text) and in_array($chat_id, $groups) and in_array($chat_id,$tq_links) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_photo = file_get_contents("delete/photo.txt");
+$dl_photo = explode("\n", $del_photo);
+
+if($text == "قفل الصور بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_photo) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/photo.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصور بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الصور بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_photo) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصور بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_photo) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/photo.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/photo.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصور بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التوجيه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_photo) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->photo and in_array($chat_id, $groups) and in_array($chat_id,$tq_photo) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_voice = file_get_contents("delete/voice.txt");
+$dl_voice = explode("\n", $del_voice);
+
+if($text == "قفل البصمه بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_voice) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/voice.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل البصمة بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل البصمه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_voice) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ بالحذف بالتقييد بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح البصمه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_voice) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/voice.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/voice.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح البصمه بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح البصمه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_voice) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ البصمه بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->voice and in_array($chat_id, $groups) and in_array($chat_id,$dl_voice) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_audio = file_get_contents("delete/audio.txt");
+$dl_audio = explode("\n", $del_audio);
+
+if($text == "قفل الصوت بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_audio) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/audio.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصوت بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الصوت بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_audio) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصوت بالحذف بالفعل تم قفله 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصوت بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_audio) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/audio.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/audio.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصوت بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الصوت بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_audio) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ بالحذف بالتقييد بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->audio and in_array($chat_id, $groups) and in_array($chat_id,$tq_audio) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_doc = file_get_contents("delete/doc.txt");
+$dl_doc = explode("\n", $tqeed_doc);
+
+if($text == "قفل المتحركه بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_doc) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/doc.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الصور المتحركة والملفات بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل المتحركه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_doc) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور المتحركه والملفات بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح المتحركه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_doc) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/doc.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/doc.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الصور المتحركة والملفات بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح المتحركه بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_doc) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الصور المتحركة والملفات بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->document and in_array($chat_id, $groups) and in_array($chat_id,$dl_doc) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_game = file_get_contents("delete/game.txt");
+$dl_game = explode("\n", $del_game);
+
+if($text == "قفل الالعاب بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_game) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/game.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الالعاب بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الالعاب بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_game) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦الالعاب بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الالعاب بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_game) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/game.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/game.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الالعاب بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الالعاب بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_game) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الالعاب بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->game and in_array($chat_id, $groups) and in_array($chat_id,$dl_game) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_sticker = file_get_contents("delete/sticker.txt");
+$dl_sticker = explode("\n", $del_sticker);
+
+if($text == "قفل الملصقات بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_sticker) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/sticker.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الملصقات بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الملصقات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_sticker) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"الملصقات بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الملصقات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_sticker) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/sticker.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/sticker.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الملصقات بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الملصقات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_sticker) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الملصقات بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->sticker and in_array($chat_id, $groups) and in_array($chat_id,$tq_game) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_video = file_get_contents("delete/video.txt");
+$dl_video = explode("\n", $del_video);
+
+if($text == "قفل الفيديو بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_video) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/video.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل الفيديو بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الفيديو بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_video) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"الفيديو بالحذف بالفعل تم قفله 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الفيديو بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_video) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/video.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/video.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح الفيديو بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الفيديو بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_video) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ الفيديو بالحذف بالفعل تم فتحه 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->video and in_array($chat_id, $groups) and in_array($chat_id,$dl_video) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_contact = file_get_contents("delete/contact.txt");
+$dl_contact = explode("\n", $del_contact);
+
+if($text == "قفل الجهات بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_contact) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/contact.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل جهات الاتصال بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل الجهات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_contact) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"جهات الاتصال بالحذف بالفعل تم قفلها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الجهات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_contact) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/contact.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/contact.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح جهات الاتصال بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح الجهات بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_contact) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ جهات الاتصال بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($message->contact and in_array($chat_id, $groups) and in_array($chat_id,$dl_video) and $you == "member" and $type == 'supergroup'){
+bot('deleteMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$mid,
+]);
+}
+
+$del_edit = file_get_contents("delete/edit.txt");
+$dl_edit = explode("\n", $del_edit);
+
+if($text == "قفل التعديل بالحذف" and in_array($chat_id,$groups) and !in_array($chat_id,$dl_edit) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+file_put_contents("delete/edit.txt", $chat_id . "\n", FILE_APPEND);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم قفل التعديل بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "قفل التعديل بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_edit) and $join != 'left' and $you != 'member' and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التعديل بالحذف بالفعل تم قفلة 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التعديل بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_edit) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+$open = file_get_contents("delete/edit.txt");
+$str = str_replace("$chat_id", "", $open);
+$open = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $open);
+file_put_contents("delete/edit.txt", $str);
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📬¦ بواسطة : " . "[" . $first_name ."](https://t.me/" . $username . ")" . "\n" . "🔐¦ تم فتح التعديل بالحذف بنجاح ✔️",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+
+if($text == "فتح التعديل بالحذف" and in_array($chat_id,$groups) and in_array($chat_id,$dl_edit) and $join != 'left' and $you != "member" and $type == 'supergroup'){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"🔐¦ التعديل بالحذف بالفعل تم فتحها 😕",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+]);
+}
+if($update->edited_message and in_array($chat_id,$groups) and in_array($chat_id,$dl_edit) and $you == "member" and $type == "supergroup"){
+bot('deletemessage',[
+'chat_id'=>$update->edited_message->chat->id,
+'message_id'=>$update->edited_message->message_id,
+]);
+}
+
+/* Same More Thinks */
+
+if($text == "/me" or $text == "موقعي" or $text == "معلوماتي" and in_array($chat_id,$groups) and $type == "supergroup"){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"📟¦ معلوماتك هي 👇",
+'reply_to_message_id'=>$mid,
+'parse_mode'=>'Markdown',
+'disable_web_page_preview'=>true,
+'reply_markup'=>json_encode([
+'inline_keyboard'=>[
+[['text'=>"رتبتك 🔰 : " . $you,'callback_data'=>'st']],
+[['text'=>"UserName :  " . "@" . $username,'callback_data'=>'username']],
+[['text'=>"UserID : " . $id,'callback_data'=>'Id']],
+[['text'=>"UserFUllName :  " . $first_name . " " . $last_name,'callback_data'=>'Name']],
+[['text'=>"ChatTitle: " . $group_name, 'callback_data'=>'gName'],['text'=>"ChatID: " . $caht_id , 'callback_data'=>'gid']],
+]
+])
+]);
+}
+$re = $message->reply_to_message;
+$re_id = $re->from->id;
+if($re and $text == "رفع ادمن" and $join != "left" and $you == "creator" and $type == "supergroup" and in_array($chat_id,$groups)){
+bebo('promoteChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$re_id,
+'can_change_info'=>TRUE,
+'can_delete_messages'=>TRUE,
+'can_invite_users'=>TRUE,
+'can_restrict_members'=>TRUE,
+'can_pin_messages'=>TRUE,
+'can_promote_members'=>TRUE,
+]);
+bebo('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"👤 • العضو |*$re_id*|
+☑️ • تم رفعه ادمن",
+'reply_to_message_id'=>$mid,
+]);
+}
+
+if($re and $text == "تنزيل ادمن" and $join != "left" and $you == "creator" and $type == "supergroup" and in_array($chat_id,$groups)){
+bebo('promoteChatMember',[
+'chat_id'=>$chat_id,
+'user_id'=>$re_id,
+'can_change_info'=>FALSE,
+'can_delete_messages'=>FALSE,
+'can_invite_users'=>FALSE,
+'can_restrict_members'=>FALSE,
+'can_pin_messages'=>FALSE,
+'can_promote_members'=>FALSE,
+]);
+bebo('sendMessage',[
+'chat_id'=>$chat_id,
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'text'=>"👤 • العضو |*$re_id*|
+☑️ • تم تنزيله من الادمنية",
+'reply_to_message_id'=>$mid,
+]);
+}
+$re_msg = $re->message_id;
+if($re and $text == "تثبيت" and $join != "left" and $you == "creator" and $type == "supergroup" and in_array($chat_id,$groups)){
+bebo('pinChatMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$re_msg,
+]);
+bebo('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"☑️ • تم تثبيت الرسالة بنجاح",
+'reply_to_message_id'=>$mid,
+]);
+}
+
+if($re and $text == "الغاء تثبيت" and $join != "left" and $you == "creator" and $type == "supergroup" and in_array($chat_id,$groups)){
+bebo('unpinChatMessage',[
+'chat_id'=>$chat_id,
+'message_id'=>$re_msg,
+]);
+bebo('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"☑️ • تم الغاء تثبيت الرسالة بنجاج",
+'reply_to_message_id'=>$mid,
+]);
+}
+
+if($text == "م1" and $join != "left" and $you != "member" and $type == "supergroup" and in_array($chat_id,$groups)){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"*📮 • اوامر حمايه بالحذف المجـــGroupــموعة
+•  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •
+🔒 • قفل ➖ لقفل امر
+🔓 • فتح ➖ لفتح امر
+•  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •
+🌐 • الروابط بالحذف
+💠 • التعديل بالحذف
+🌀 • المتحركه بالحذف  :  الصور المتحركة : الملفات 
+🖼 • الصور بالحذف
+
+📜 • الملصقات بالحذف
+🎥 • الفيديو بالحذف
+♻️ • التوجيه بالحذف
+🎧 • الصوت بالحذف
+🎤 • البصمه بالحذف
+📞 • الجهات بالحذف
+
+📡┇Ch ~⪼* [تم الأنشاء بواسطة محمد لاند](https://t.me/free_syria_max)",
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$mid,
+]);
+}
+
+if($text == "م2" and $join != "left" and $you != "member" and $type == "supergroup" and in_array($chat_id,$groups)){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"*📮 • اوامر حمايه بالتقييد المجـــGroupــموعة
+•  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •
+🔒 • قفل ➖ لقفل امر
+🔓 • فتح ➖ لفتح امر
+•  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •  •
+🌐 • الروابط بالتقييد
+💠 • التعديل بالتقييد
+🌀 • المتحركه بالتقييد  :  الصور المتحركة : الملفات 
+🖼 • الصور بالتقييد
+
+📜 • الملصقات بالتقييد
+🎥 • الفيديو بالتقييد
+♻️ • التوجيه بالتقييد
+🎧 • الصوت بالتقييد
+🎤 • البصمه بالتقييد
+📞 • الجهات بالتقييد
+
+📡┇Ch ~⪼* [تم الأنشاء بواسطة محمد لاند](https://t.me/M_YT_98)",
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$mid,
+]);
+}
+
+if($text == "/help" or $text == "الاوامر" and $join != "left" and $you != "member" and $type == "supergroup" and in_array($chat_id,$groups)){
+bot('sendMessage',[
+'chat_id'=>$chat_id,
+'text'=>"*🔰¦ يوجد قائمتين اوامر 👇
+
+1️⃣¦ م1  لعرض اوامر الحذف
+
+2️⃣¦ م2  لعرض اوامر التقييد
+
+📡┇Ch ~⪼* [تم الأنشاء بواسطة محمد لاند](https://t.me/M_YT_98)",
+'parse_mode'=>'markdown',
+'disable_web_page_preview'=>true,
+'reply_to_message_id'=>$mid,
+]);
+}
